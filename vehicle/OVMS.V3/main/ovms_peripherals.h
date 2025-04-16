@@ -43,6 +43,14 @@
 #include "mcp2515.h"
 #endif // #ifdef CONFIG_OVMS_COMP_MCP2515
 
+
+#ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+#undef CONFIG_OVMS_COMP_EXTERNAL_SWCAN
+#undef CONFIG_OVMS_COMP_MAX7317
+#undef CONFIG_OVMS_COMP_SDCARD
+#undef CONFIG_OVMS_COMP_EXT12V
+#endif // #ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+
 #ifdef CONFIG_OVMS_COMP_EXTERNAL_SWCAN
 #include "swcan.h"
 #endif // #ifdef CONFIG_OVMS_COMP_EXTERNAL_SWCAN
@@ -79,16 +87,21 @@
 #include "ext12v.h"
 #endif // #ifdef CONFIG_OVMS_COMP_EXT12V
 
+
 #define MODULE_GPIO_SW2           0       // SW2: firmware download / factory reset
 
 #define VSPI_PIN_MISO             19
 #define VSPI_PIN_MOSI             23
 #define VSPI_PIN_CLK              18
-#define VSPI_PIN_MCP2515_1_CS     5
-#define VSPI_PIN_MAX7317_CS       21
-#define VSPI_PIN_MCP2515_2_CS     27
+
+#if defined(CONFIG_OVMS_HW_BASE_3_0) || defined(CONFIG_OVMS_HW_BASE_3_1)
+
 #define VSPI_PIN_MCP2515_1_INT    34
 #define VSPI_PIN_MCP2515_2_INT    35
+
+#define VSPI_PIN_MAX7317_CS       21
+#define VSPI_PIN_MCP2515_1_CS     5
+#define VSPI_PIN_MCP2515_2_CS     27
 
 #define SDCARD_PIN_CLK            14
 #define SDCARD_PIN_CMD            15
@@ -133,6 +146,35 @@
 
 #define MODEM_EGPIO_PWR           0
 #define MODEM_EGPIO_DTR           3
+
+#endif // defined(CONFIG_OVMS_HW_BASE_3_0) || defined(CONFIG_OVMS_HW_BASE_3_1)
+
+#if defined(CONFIG_OVMS_HW_BASE_LILYGO_1_0)   // Lilygo T-Call A7670 V1.0
+
+#define VSPI_PIN_MCP2515_1_CS     22
+#define VSPI_PIN_MCP2515_1_INT    35
+
+#define ESP32CAN_PIN_TX           32
+#define ESP32CAN_PIN_RX           34
+#define ESP32CAN_PIN_RS           33       // RS pin of CAN transceiver 
+
+#define MODEM_GPIO_RX             25
+#define MODEM_GPIO_TX             26
+#define MODEM_GPIO_DTR            14
+#define MODEM_GPIO_RING           13    // NOT USED
+#define MODEM_GPIO_PWR             4    // switch POWERKEY of Modem (active high)
+#define MODEM_GPIO_RESET          27    // NOT YET USED (active low)
+
+#define ADC_CHANNEL_12V           0    // Measure OBD 12V - GPIO36/SENSOR_VP
+
+#define MODEM_EGPIO_PWR           MODEM_GPIO_PWR 
+#define MODEM_EGPIO_DTR           MODEM_GPIO_DTR
+#define VSPI_PIN_MCP2515_2_INT    -1
+#define VSPI_PIN_MCP2515_2_CS     -1
+
+#define MCP2515_8MHZ
+
+#endif // defined(CONFIG_OVMS_HW_BASE_LILYGO_1_0)
 
 class Peripherals : public InternalRamAllocated
   {

@@ -119,6 +119,17 @@ Peripherals::Peripherals()
   gpio_set_pull_mode((gpio_num_t)SDCARD_PIN_D0, GPIO_PULLUP_ONLY);    // D0, needed in 4- and 1-line modes
 #endif // #ifdef CONFIG_OVMS_COMP_SDCARD
 
+#ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+  gpio_set_direction((gpio_num_t)MODEM_GPIO_PWR, GPIO_MODE_OUTPUT);
+  gpio_set_direction((gpio_num_t)MODEM_GPIO_RESET, GPIO_MODE_OUTPUT);
+  gpio_set_direction((gpio_num_t)MODEM_GPIO_RING, GPIO_MODE_INPUT);
+  gpio_set_direction((gpio_num_t)MODEM_GPIO_DTR, GPIO_MODE_OUTPUT);
+  gpio_set_level((gpio_num_t)MODEM_GPIO_PWR, 0);    // signal is inverted by NPN transistor - set to high
+  gpio_set_level((gpio_num_t)MODEM_GPIO_RESET,1);   // active LOW - NOT USED YET
+  gpio_set_level((gpio_num_t)MODEM_GPIO_DTR, 1);
+#endif // #ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+
+
   ESP_LOGI(TAG, "  ESP32 system");
   m_esp32 = new esp32system("esp32");
 
@@ -154,8 +165,8 @@ Peripherals::Peripherals()
 #ifdef CONFIG_OVMS_COMP_MCP2515
   ESP_LOGI(TAG, "  MCP2515 CAN 1/2");
   m_mcp2515_1 = new mcp2515("can2", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_1_CS, VSPI_PIN_MCP2515_1_INT);
-  ESP_LOGI(TAG, "  MCP2515 CAN 2/2");
-  m_mcp2515_2 = new mcp2515("can3", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_2_CS, VSPI_PIN_MCP2515_2_INT);
+//  ESP_LOGI(TAG, "  MCP2515 CAN 2/2");
+//  m_mcp2515_2 = new mcp2515("can3", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_2_CS, VSPI_PIN_MCP2515_2_INT);
 #endif // #ifdef CONFIG_OVMS_COMP_MCP2515
 
 #ifdef CONFIG_OVMS_COMP_EXTERNAL_SWCAN
