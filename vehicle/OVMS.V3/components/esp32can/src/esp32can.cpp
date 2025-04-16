@@ -526,6 +526,17 @@ esp_err_t esp32can::Start(CAN_mode_t mode, CAN_speed_t speed)
   m_mode = mode;
   m_speed = speed;
 
+#ifdef CONFIG_OVMS_COMP_MAX7317
+  // Power up the matching SN65 transciever
+  MyPeripherals->m_max7317->Output(MAX7317_CAN1_EN, 0);
+#endif // #ifdef CONFIG_OVMS_COMP_MAX7317
+
+#if defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
+  // Power up the matching SN65 transceiver
+  gpio_set_direction((gpio_num_t)ESP32CAN_PIN_RS,GPIO_MODE_OUTPUT);
+  gpio_set_level((gpio_num_t)ESP32CAN_PIN_RS, 0);
+#endif // defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
+
   // Enable module
   DPORT_SET_PERI_REG_MASK(DPORT_PERIP_CLK_EN_REG, DPORT_CAN_CLK_EN);
   DPORT_CLEAR_PERI_REG_MASK(DPORT_PERIP_RST_EN_REG, DPORT_CAN_RST);
@@ -595,6 +606,16 @@ esp_err_t esp32can::Stop()
   MODULE_ESP32CAN->MOD.B.RM = 1;
 
   ESP32CAN_EXIT_CRITICAL();
+
+#ifdef CONFIG_OVMS_COMP_MAX7317
+  // Power down the matching SN65 transciever
+  MyPeripherals->m_max7317->Output(MAX7317_CAN1_EN, 1);
+#endif // #ifdef CONFIG_OVMS_COMP_MAX7317
+
+#if defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
+  // Power down the matching SN65 transciever
+  gpio_set_level((gpio_num_t)ESP32CAN_PIN_RS, 1);
+#endif // defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
 
   // And record that we are powered down
   pcp::SetPowerMode(Off);
