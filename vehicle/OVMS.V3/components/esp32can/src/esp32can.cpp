@@ -526,6 +526,12 @@ esp_err_t esp32can::Start(CAN_mode_t mode, CAN_speed_t speed)
   MyPeripherals->m_max7317->Output(MAX7317_CAN1_EN, 0);
 #endif // #ifdef CONFIG_OVMS_COMP_MAX7317
 
+#ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+  // Power up the matching SN65 transceiver
+  gpio_set_direction((gpio_num_t)ESP32CAN_PIN_RS,GPIO_MODE_OUTPUT);
+  gpio_set_level((gpio_num_t)ESP32CAN_PIN_RS, 0);
+#endif // CONFIG_OVMS_HW_BASE_LILYGO_1_0
+
   // Enable module
   DPORT_SET_PERI_REG_MASK(DPORT_PERIP_CLK_EN_REG, DPORT_CAN_CLK_EN);
   DPORT_CLEAR_PERI_REG_MASK(DPORT_PERIP_RST_EN_REG, DPORT_CAN_RST);
@@ -590,6 +596,11 @@ esp_err_t esp32can::Stop()
   // Power down the matching SN65 transciever
   MyPeripherals->m_max7317->Output(MAX7317_CAN1_EN, 1);
 #endif // #ifdef CONFIG_OVMS_COMP_MAX7317
+
+#ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
+  // Power down the matching SN65 transciever
+  gpio_set_level((gpio_num_t)ESP32CAN_PIN_RS, 1);
+#endif // CONFIG_OVMS_HW_BASE_LILYGO_1_0
 
   // And record that we are powered down
   pcp::SetPowerMode(Off);
