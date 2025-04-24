@@ -51,6 +51,7 @@ static const char *TAG = "v-smarteq";
 #ifdef CONFIG_OVMS_COMP_PLUGINS
   #include "ovms_plugins.h"
 #endif
+#endif // #ifdef CONFIG_OVMS_COMP_PLUGINS
 #include "buffered_shell.h"
 
 OvmsVehicleSmartEQ* OvmsVehicleSmartEQ::GetInstance(OvmsWriter* writer)
