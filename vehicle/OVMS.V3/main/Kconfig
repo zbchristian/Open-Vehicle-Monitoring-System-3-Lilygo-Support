@@ -503,6 +503,12 @@ config OVMS_VEHICLE_SMARTEQ
     depends on OVMS_COMP_POLLER
     help
         Enable to include support for Smart ED/EQ Gen.4 vehicle.
+menuconfig OVMS_SMARTEQ_DDT4ALL
+    bool "Enable DDT4ALL Control Unit Options"
+    depends on  OVMS_VEHICLE_SMARTEQ
+    default n
+    help
+        Select this option to enable DDT4All style CAN write options to modify the COntrol Unit settings
 
 config OVMS_VEHICLE_MITSUBISHI
     bool "Include support for Mitsubishi iMiev vehicle"
