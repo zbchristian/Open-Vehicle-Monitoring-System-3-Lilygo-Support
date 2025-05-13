@@ -114,7 +114,6 @@ public:
     vehicle_command_t CommandStat(int verbosity, OvmsWriter* writer) override;
     vehicle_command_t CommandLock(const char* pin) override;
     vehicle_command_t CommandUnlock(const char* pin) override;
-#ifdef CONFIG_OVMS_SMARTEQ_DDT4ALL
     vehicle_command_t CommandActivateValet(const char* pin) override;
     vehicle_command_t CommandDeactivateValet(const char* pin) override;
     vehicle_command_t CommandCan(uint32_t txid,uint32_t rxid,bool reset=false,bool wakeup2=false);

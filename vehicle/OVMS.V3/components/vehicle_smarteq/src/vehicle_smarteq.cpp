@@ -1549,7 +1549,6 @@ OvmsVehicle::vehicle_command_t OvmsVehicleSmartEQ::CommandUnlock(const char* pin
   return Success;
 }
 
-#ifdef CONFIG_OVMS_SMARTEQ_DDT4ALL
 OvmsVehicle::vehicle_command_t OvmsVehicleSmartEQ::CommandActivateValet(const char* pin) {
   return NotImplemented;
 }
@@ -2149,8 +2148,6 @@ OvmsVehicle::vehicle_command_t OvmsVehicleSmartEQ::CommandDDT4all(int number) {
   }
   return res;
 }
-#endif // CONFIG_OVMS_SMARTEQ_DDT4ALL
-
 
 OvmsVehicle::vehicle_command_t OvmsVehicleSmartEQ::CommandStat(int verbosity, OvmsWriter* writer) {
 
@@ -2630,14 +2627,12 @@ bool OvmsVehicleSmartEQ::SetFeature(int key, const char *value)
       MyConfig.SetParamValueBool("xsq", "canwrite",  (bits& 1)!=0);
       return true;
     }
-#ifdef CONFIG_OVMS_SMARTEQ_DDT4ALL
     case 16:
     {
       int bits = atoi(value);
       MyConfig.SetParamValueBool("xsq", "unlock.warning",  (bits& 1)!=0);
       return true;
     }
-#endif // CONFIG_OVMS_SMARTEQ_DDT4ALL
     default:
       return OvmsVehicle::SetFeature(key, value);
   }
@@ -2715,7 +2710,6 @@ const std::string OvmsVehicleSmartEQ::GetFeature(int key)
       sprintf(buf, "%d", bits);
       return std::string(buf);
     }
-#ifdef CONFIG_OVMS_SMARTEQ_DDT4ALL
     case 16:
     {
       int bits = ( MyConfig.GetParamValueBool("xsq", "unlock.warning",  false) ?  1 : 0);
@@ -2723,7 +2717,6 @@ const std::string OvmsVehicleSmartEQ::GetFeature(int key)
       sprintf(buf, "%d", bits);
       return std::string(buf);
     }
-#endif // CONFIG_OVMS_SMARTEQ_DDT4ALL
     default:
       return OvmsVehicle::GetFeature(key);
   }
