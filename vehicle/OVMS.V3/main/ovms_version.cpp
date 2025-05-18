@@ -173,11 +173,6 @@ std::string GetOVMSProduct()
   else
     { return std::string("v3.3"); }
   #endif //#ifdef CONFIG_OVMS_HW_BASE_3_1
-
-  #ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
-  return std::string("Lilygo v1.0");
-  #endif //#ifdef CONFIG_OVMS_HW_BASE_LILYGO_1_0
-
   }
 
 std::string GetOVMSHardware()
