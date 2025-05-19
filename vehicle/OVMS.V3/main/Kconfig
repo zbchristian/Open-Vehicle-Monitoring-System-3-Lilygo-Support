@@ -37,35 +37,53 @@ config OVMS_HW_BASE_3_1
 
 endchoice # OVMS_HW_MODEL
 
+choice OVMS_HW_SELECT_GPIO_MAP
+    prompt "Choose GPIO Mapping "
+        default OVMS_HW_DEFAULT_GPIO_MAP
+        help
+                OVMS_HW_DEFAULT_GPIO_MAP                Default GPIO assignment of OVMS module
+                OVMS_HW_REMAP_GPIO                      Alternative GPIO mapping
+
+config OVMS_HW_DEFAULT_GPIO_MAP
+    bool "Default OVMS module GPIO Mapping"
+    help
+        Select this for the default OVMS module
+
 config OVMS_HW_REMAP_GPIO
-    bool "ALternative OVMS modules/GPIO Mapping"
+    bool "Enable alternative OVMS modules/GPIO Mapping"
     help
         Select this: Enable alternative mapping of ESP32 GPIOs
 
-choice OVMS_HW_SELECT_GPIO_MAPPING
+endchoice # OVMS_HW_SELECT_GPIO_MAP
+
+choice OVMS_HW_SELECT_ALT_GPIO_MAP
     prompt "GPIO mapping for "
-        default OVMS_HW_GPIO_LILYGO_TC_V11
-        depends on OVMS_HW_REMAP_GPIO && OVMS_HW_BASE_3_1
-        help
+    default OVMS_HW_GPIO_LILYGO_TC_V11
+    depends on OVMS_HW_REMAP_GPIO
+    help
+                OVMS_HW_GPIO_LILYGO_TC_V10_A              Lilygo T-Call A7670E V 1.0 (RevA)
                 OVMS_HW_GPIO_LILYGO_TC_V10                Lilygo T-Call A7670E V 1.0
                 OVMS_HW_GPIO_LILYGO_TC_V11                Lilygo T-Call A7670E V 1.1
 
 config OVMS_HW_GPIO_LILYGO_TC_V10_A
     bool "Lilygo T-Call V 1.0 on Motherboard Rev A"
+    depends on OVMS_HW_BASE_3_1
     help
         Select this: Support for modules based on Lilygo T-Call A7670E V 1.0
 
 config OVMS_HW_GPIO_LILYGO_TC_V10
     bool "Lilygo T-Call V 1.0 on Motherboard Rev B"
+    depends on OVMS_HW_BASE_3_1
     help
         Select this: Support for modules based on Lilygo T-Call A7670E V 1.0
 
 config OVMS_HW_GPIO_LILYGO_TC_V11
     bool "Lilygo T-Call V 1.1 on motherboard Rev B"
+    depends on OVMS_HW_BASE_3_1
     help
         Select this: Support for modules based on Lilygo T-Call A7670E V 1.1
 
-endchoice # OVMS_HW_SELECT_GPIO_MAPPING
+endchoice # OVMS_HW_SELECT_ALT_GPIO_MAP
 
 config OVMS_HW_SPIMEM_AGGRESSIVE
     bool "Aggressively use SPI RAM (rather than internal RAM)"
