@@ -169,7 +169,7 @@
 #endif // Rev A
 
 #if defined(CONFIG_OVMS_HW_GPIO_LILYGO_TC_V10) || defined(CONFIG_OVMS_HW_GPIO_LILYGO_TC_V11)  // V1.0 or V1.1 on rev B board
-    #define ESP32CAN_PIN_TX            2     
+    #define ESP32CAN_PIN_TX            2       // GPIO 2 - NO external pullup allowed     
     #define ESP32CAN_PIN_RX           34
     #define ESP32CAN_PIN_RS           21       // RS pin of CAN transceiver 
 #endif // Rev B

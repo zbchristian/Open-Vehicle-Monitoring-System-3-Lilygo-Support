@@ -101,6 +101,17 @@ Peripherals::Peripherals()
   gpio_set_level((gpio_num_t)VSPI_PIN_MCP2515_2_CS, 1); // to prevent SPI crosstalk during initialization
 #endif // #ifdef CONFIG_OVMS_COMP_MCP2515
 
+#ifdef CONFIG_OVMS_COMP_MAX7317
+  // Disable the TX driver of the matching SN65 transceiver
+  MyPeripherals->m_max7317->Output(MAX7317_CAN1_EN, 1);
+#endif // #ifdef CONFIG_OVMS_COMP_MAX7317
+
+#if defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
+  // Disable TX driver of matching SN65 transceiver
+  gpio_set_direction((gpio_num_t)ESP32CAN_PIN_RS,GPIO_MODE_OUTPUT);
+  gpio_set_level((gpio_num_t)ESP32CAN_PIN_RS, 1);
+#endif // defined(CONFIG_OVMS_HW_REMAP_GPIO) && defined(ESP32CAN_PIN_RS)
+
 #ifdef CONFIG_OVMS_COMP_EXTERNAL_SWCAN
   gpio_set_direction((gpio_num_t)VSPI_PIN_MCP2515_SWCAN_CS, GPIO_MODE_OUTPUT);
   gpio_set_direction((gpio_num_t)VSPI_PIN_MCP2515_SWCAN_INT, GPIO_MODE_INPUT);
@@ -169,6 +180,7 @@ Peripherals::Peripherals()
 #ifdef CONFIG_OVMS_COMP_MCP2515
   ESP_LOGI(TAG, "  MCP2515 CAN 1/2");
   m_mcp2515_1 = new mcp2515("can2", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_1_CS, VSPI_PIN_MCP2515_1_INT);
+//  m_mcp2515_1 = new mcp2515("can1", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_1_CS, VSPI_PIN_MCP2515_1_INT);
   ESP_LOGI(TAG, "  MCP2515 CAN 2/2");
   m_mcp2515_2 = new mcp2515("can3", m_spibus, VSPI_HOST, 10000000, VSPI_PIN_MCP2515_2_CS, VSPI_PIN_MCP2515_2_INT);
 #endif // #ifdef CONFIG_OVMS_COMP_MCP2515
