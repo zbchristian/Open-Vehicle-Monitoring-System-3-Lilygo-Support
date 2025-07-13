@@ -14,8 +14,8 @@ GPIO Names and Functions
 
 | Name                   | Function                                               |
 | ---------------------- | ------------------------------------------------------ |
-| VSPI_PIN_MISO          |   SPI output pin of ESP32 - connects to MCP2515 chips  |
-| VSPI_PIN_MOSI          |   SPI input pin of ESP32                               |
+| VSPI_PIN_MISO          |   SPI input pin of ESP32 (master) - connects to MCP2515 chips  |
+| VSPI_PIN_MOSI          |   SPI output pin of ESP32 (master)                              |
 | VSPI_PIN_CLK           |   SPI clock pin of ESP32                               |
 | VSPI_PIN_MCP2515_1_CS  |   chip select of first MCP2515                         |
 | VSPI_PIN_MCP2515_1_INT |   interrupt of first MCP2515                           | 
@@ -23,8 +23,8 @@ GPIO Names and Functions
 | VSPI_PIN_MCP2515_2_INT |   interrupt of second MCP2515                          | 
 | ESP32CAN_PIN_TX        |   transmit pin of ESP32 built-in CAN bus               |
 | ESP32CAN_PIN_RX        |   receive pin of ESP32 built-in CAN bus                |
-| ESP32CAN_PIN_RS        |   RS pin of CAN transceiver of ESP32 built-in CAN bus  |             
 | MAX7317_CAN1_EN        |   RS pin of CAN transceiver of CAN 1 via GPIO extender |
+| ESP32CAN_PIN_RS        |   RS pin of CAN transceiver of ESP32 built-in CAN bus (non standard Hardware) |
 | VSPI_PIN_MCP2515_SWCAN_CS | chip select of third MCP2515 vio GPIO extender     |
 | VSPI_PIN_MCP2515_SWCAN_INT | interrupt of third MCP2515 via GPIO extender      |
 | MODEM_GPIO_RX          |   UART RX pin connected to modem                       |
@@ -82,5 +82,4 @@ Example snippet
 
 Be aware, that the numbers are the GPIO numbers and NOT the ESP32 pin numbers.
 
-In case the GPIO extender chip MAX7317 is not present in the hardware, the support has to be disabled via `menuconfig` and the no assignment to the corresponding names is required.
 
